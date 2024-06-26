@@ -18,8 +18,8 @@ interface Documents {
   receiptLink: string | undefined
 }
 
-export async function fetchDataFromPage(): Promise<object> {
-  const url = `https://pje-consulta-publica.tjmg.jus.br/pje/ConsultaPublica/DetalheProcessoConsultaPublica/listView.seam?ca=d82c8105945561022939edd03612be078d57c87d0ea45b44`
+export async function fetchDataFromPage(URLParameter: string): Promise<object> {
+  const url = URLParameter
 
   try {
     const response = await axios.get(url)
