@@ -92,13 +92,15 @@ export async function fetchDataFromPage(url: string): Promise<object> {
     // const totalPage = elements.text().trim()
     // const totalPageNumber = Number(totalPage)
 
-    const allMovementsPages = await processMovementsPages()
+    // const allMovementsPages = await processMovementsPages()
 
-    const $allPages = cheerio.load(allMovementsPages)
+    // const $allPages = cheerio.load(allMovementsPages)
+
+    // $allPages
 
     // console.log($allPages)
 
-    $allPages('#j_id134\\:processoEvento tbody tr').each((_, row) => {
+    $('#j_id134\\:processoEvento tbody tr').each((_, row) => {
       const $row = $(row)
       const movement = $row.find('td div div span').text().trim()
       const documentName = $row.find('td:nth-child(2) > a').text().trim()
