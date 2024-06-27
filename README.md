@@ -1,18 +1,41 @@
-Rotas
-1. /client/123456789
+# Guia de Instalação e Execução do Projeto
 
-Método: GET
-Descrição: Esta rota retorna os detalhes de processo do cliente especificado pelo ID 123456789.
+## Baixar o Projeto
 
-2. /client/987654321
+Clone o repositório e acesse o diretório do projeto:
 
-Método: GET
-Descrição: Esta rota retorna os detalhes de processo do cliente especificado pelo ID 987654321.
+```bash
+git clone https://github.com/ewerton11/crawlers_test.git
+cd crawlers_test
+```
 
-Executando o Projeto
-Para executar este projeto localmente:
+## Instalar Dependências
 
-Clone o repositório do projeto git clone https://github.com/ewerton11/crawlers_test.git
-Instale as dependências usando comando npm install.
-Faça a bulder com npm run builder
-Inicie o servidor com npm start.
+```bash
+npm install
+```
+
+## Build do Projeto
+
+```bash
+npm run build
+```
+
+## Iniciar o Projeto
+
+```bash
+npm start
+```
+
+## Rotas:
+
+1. `/process`
+   - **Método:** POST
+   - **Descrição:** Esta rota retorna os detalhes de um processo com base no número de processo fornecido.
+   - **Corpo da Requisição:**
+  
+     ```json
+     {
+       "processNumber": "5044116-91.2023.8.13.0024"
+     }
+     ```
