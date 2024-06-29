@@ -1,6 +1,6 @@
 import axios from 'axios'
 import cheerio from 'cheerio'
-import { processMovementsPages } from '../config/ProcessMovementsPages'
+import { processMovementsPages } from '../config/processMovementsPages'
 
 interface Participant {
   participant: string
@@ -85,42 +85,41 @@ export async function fetchDataFromPage(url: string): Promise<object> {
 
     const processMovements: Movements[] = []
 
-    // const elements = $(
-    //   '#j_id134\\:j_id531\\:j_id532 > tbody > tr:nth-child(1) > td.rich-inslider-right-num'
-    // )
+    const totalNumberOfProcessMovementPages = $(
+      '#j_id134\\:j_id531\\:j_id532 > tbody > tr:nth-child(1) > td.rich-inslider-right-num'
+    )
 
-    // const totalPage = elements.text().trim()
-    // const totalPageNumber = Number(totalPage)
+    const totalPage = totalNumberOfProcessMovementPages.text().trim()
+    const totalPageNumber = Number(totalPage)
 
-    // const allMovementsPages = await processMovementsPages()
+    for (let i = 1; i <= totalPageNumber; i++) {
+      const allMovementsPages = await processMovementsPages(i)
 
-    // const $allPages = cheerio.load(allMovementsPages)
+      const $allPages = cheerio.load(allMovementsPages)
 
-    // $allPages
+      $allPages('#j_id134\\:processoEvento tbody tr').each((_, row) => {
+        const $row = $(row)
 
-    // console.log($allPages)
+        const movement = $row.find('td div div span').text().trim()
+        const documentName = $row.find('td:nth-child(2) > a').text().trim()
+        let documentLink = ''
 
-    $('#j_id134\\:processoEvento tbody tr').each((_, row) => {
-      const $row = $(row)
-      const movement = $row.find('td div div span').text().trim()
-      const documentName = $row.find('td:nth-child(2) > a').text().trim()
-      let documentLink = ''
+        const $tdElement = $row.find('.rich-table-cell a')
 
-      const $tdElement = $row.find('.rich-table-cell a')
+        if ($tdElement.length > 0) {
+          const onclickValue = $tdElement.attr('onclick')
+          if (onclickValue) {
+            const match = onclickValue.match(/'([^']+)'(?=\);)/)
 
-      if ($tdElement.length > 0) {
-        const onclickValue = $tdElement.attr('onclick')
-        if (onclickValue) {
-          const match = onclickValue.match(/'([^']+)'(?=\);)/)
-
-          if (match && match[1]) {
-            documentLink = match[1]
+            if (match && match[1]) {
+              documentLink = match[1]
+            }
           }
         }
-      }
 
-      processMovements.push({ movement, documentName, documentLink })
-    })
+        processMovements.push({ movement, documentName, documentLink })
+      })
+    }
 
     const documents: Documents[] = []
     $('#j_id134\\:processoDocumentoGridTab tbody tr').each((_, row) => {

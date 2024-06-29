@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node dist/app.js",
-    "dev": "tsx src/app.ts",
+    "build": "tsup src",
     "watch": "tsx watch src/app.ts",
-    "build": "tsup src"
+    "dev": "tsx src/app.ts",
+    "start": "node dist/app.js"
   },
   "author": "",
   "license": "ISC",
@@ -21,6 +21,7 @@
     "@types/axios": "^0.14.0",
     "@types/cheerio": "^0.22.35",
     "@types/node": "^20.14.9",
+    "tsup": "^8.1.0",
     "tsx": "^4.15.7",
     "typescript": "^5.5.2"
   }
